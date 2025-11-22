@@ -1,9 +1,11 @@
+
 import React, { useState, useEffect } from 'react';
 import { ViewState } from './types';
 import Navigation from './components/Navigation';
 import InteractiveBackground from './components/InteractiveBackground';
 import CustomCursor from './components/CustomCursor';
 import Gallery from './components/Gallery';
+import GlitchText from './components/GlitchText';
 import { Instagram, Twitter, Mail, MoveRight } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -21,23 +23,17 @@ const App: React.FC = () => {
           <div className={`flex flex-col items-center justify-center min-h-screen text-center px-4 pt-24 md:pt-32 transition-opacity duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
             <div className="relative z-10 mix-blend-normal max-w-4xl mx-auto">
               
-              <h1 className="group relative">
-                <div className="relative inline-block animate-fade-in-up">
-                  {/* Base Layer */}
-                  <span className="block text-5xl md:text-9xl font-bold text-white mb-2 serif tracking-tighter transition-opacity duration-1000 group-hover:opacity-40">
-                    ÉLARA
-                  </span>
-                  
-                  {/* Overlay Layer */}
-                  <span className="absolute inset-0 block text-5xl md:text-9xl font-bold mb-2 serif tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-200 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-1000 ease-out" aria-hidden="true">
-                    ÉLARA
-                  </span>
-                </div>
+              <div className="mb-4">
+                 <GlitchText 
+                    as="h1" 
+                    text="ÉLARA" 
+                    className="text-6xl md:text-9xl font-bold text-white serif tracking-tighter"
+                 />
+              </div>
 
-                <span className="block text-5xl md:text-9xl font-light italic text-gray-400 serif tracking-tight animate-fade-in-up delay-100 transition-transform duration-700 group-hover:translate-x-4">
-                  NUIT<span className="text-purple-500 not-italic">.</span>
-                </span>
-              </h1>
+              <span className="block text-4xl md:text-6xl font-light italic text-gray-400 serif tracking-tight animate-fade-in-up delay-100">
+                NUIT<span className="text-purple-500 not-italic">.</span>
+              </span>
 
               <div className="h-px w-16 md:w-24 bg-gradient-to-r from-transparent via-white/50 to-transparent mx-auto my-6 md:my-8 animate-scale-x delay-200" />
 
@@ -75,7 +71,7 @@ const App: React.FC = () => {
                 <div className="flex flex-col justify-center space-y-6 md:space-y-8">
                   <div>
                     <span className="text-purple-400 text-xs tracking-widest uppercase mb-2 block">Biographie</span>
-                    <h2 className="text-4xl md:text-5xl serif text-white mb-4 md:mb-6">L'Origine</h2>
+                    <GlitchText as="h2" text="L'Origine" className="text-4xl md:text-5xl serif text-white mb-4 md:mb-6" />
                   </div>
                   
                   <div className="space-y-4 md:space-y-6 text-gray-300 font-light leading-loose text-sm md:text-base text-left md:text-justify">

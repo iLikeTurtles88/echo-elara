@@ -247,12 +247,36 @@ const InteractiveBackground: React.FC = () => {
       targetMouseY = 1.0 - (e.clientY / window.innerHeight);
     };
 
+    // Gestion de l'orientation mobile (Gyroscope)
+    const handleOrientation = (e: DeviceOrientationEvent) => {
+      // Gamma (gauche/droite) : généralement entre -90 et 90
+      // Beta (avant/arrière) : généralement entre -180 et 180
+      
+      const gamma = e.gamma || 0; // Inclinaison gauche/droite
+      const beta = e.beta || 0;   // Inclinaison avant/arrière
+
+      // Normalisation pour correspondre à 0.0 -> 1.0 comme la souris
+      // On assume une tenue de téléphone "confortable" :
+      // Gamma : 0 (centré). Plage +/- 45 deg
+      // Beta : 45 (tenu face à soi). Plage +/- 45 deg
+
+      const normalizedX = 0.5 + (gamma / 90); 
+      // Pour Y, on centre autour de 45 degrés (position de lecture standard)
+      const normalizedY = 0.5 - ((beta - 45) / 90);
+
+      // Clamp values
+      targetMouseX = Math.max(0, Math.min(1, normalizedX));
+      targetMouseY = Math.max(0, Math.min(1, normalizedY));
+    };
+
     window.addEventListener('resize', handleResize);
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('deviceorientation', handleOrientation);
 
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('deviceorientation', handleOrientation);
       cancelAnimationFrame(frameId);
       if (container && renderer.domElement) {
         container.removeChild(renderer.domElement);

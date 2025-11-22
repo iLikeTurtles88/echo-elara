@@ -16,11 +16,25 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView }) => {
     { id: ViewState.ABOUT, label: 'À PROPOS' },
   ];
 
+  const handleLogoClick = () => {
+    if (currentView === ViewState.HOME) {
+      setView(ViewState.GALLERY);
+    } else {
+      setView(ViewState.HOME);
+    }
+  };
+
+  const logoCursorText = currentView === ViewState.HOME ? "Œuvres" : "Accueil";
+
   return (
     <>
       {/* Desktop Nav */}
       <nav className="fixed top-0 left-0 w-full p-6 md:p-8 flex justify-between items-center z-50 text-white pointer-events-none transition-all duration-300 bg-gradient-to-b from-black/80 via-black/40 to-transparent backdrop-blur-[1px]">
-        <div className="pointer-events-auto cursor-pointer mix-blend-difference" onClick={() => setView(ViewState.HOME)}>
+        <div 
+          className="pointer-events-auto cursor-pointer mix-blend-difference" 
+          onClick={handleLogoClick}
+          data-cursor-text={logoCursorText}
+        >
           <h1 className="text-xl md:text-2xl font-bold tracking-widest serif hover:opacity-80 transition-opacity">L'ÉCHO</h1>
         </div>
 
@@ -63,6 +77,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView }) => {
           className="md:hidden pointer-events-auto text-white hover:text-purple-400 transition-colors z-50 relative p-2 active:scale-95 transition-transform"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Menu"
+          data-cursor-text={isOpen ? "Fermer" : "Menu"}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>

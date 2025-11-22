@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 const CustomCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
+  const [cursorText, setCursorText] = useState('Ouvrir');
   
   // Position brute de la souris
   const mousePos = useRef({ x: 0, y: 0 });
@@ -15,8 +16,17 @@ const CustomCursor: React.FC = () => {
     };
 
     // Détection des éléments interactifs pour changer l'état du curseur
-    const onMouseEnterInteractive = () => setIsHovering(true);
-    const onMouseLeaveInteractive = () => setIsHovering(false);
+    const onMouseEnterInteractive = (e: Event) => {
+      setIsHovering(true);
+      const target = e.currentTarget as HTMLElement;
+      const customText = target.getAttribute('data-cursor-text');
+      setCursorText(customText || 'Ouvrir');
+    };
+
+    const onMouseLeaveInteractive = () => {
+      setIsHovering(false);
+      // On ne reset pas le texte immédiatement pour éviter le flash pendant le fade-out
+    };
 
     // Attacher les écouteurs aux éléments interactifs
     const attachListeners = () => {
@@ -94,9 +104,9 @@ const CustomCursor: React.FC = () => {
             opacity: isHovering ? 0.8 : 1,
         }}
       >
-         {/* Petit texte optionnel à l'intérieur du curseur quand on survole */}
+         {/* Texte dynamique à l'intérieur du curseur */}
          <span className={`text-black text-[8px] font-bold tracking-widest uppercase transition-opacity duration-200 ${isHovering ? 'opacity-100' : 'opacity-0'}`}>
-            Ouvrir
+            {cursorText}
          </span>
       </div>
     </>
