@@ -28,6 +28,7 @@ const App: React.FC = () => {
                     as="h1" 
                     text="ÉLARA" 
                     className="text-6xl md:text-9xl font-bold text-white serif tracking-tighter"
+                    alwaysActive={true}
                  />
               </div>
 

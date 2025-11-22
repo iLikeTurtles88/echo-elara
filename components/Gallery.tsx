@@ -128,7 +128,7 @@ const TiltCard: React.FC<{ art: ArtPiece; index: number; onClick: (art: ArtPiece
 
   return (
     <div 
-      className="relative w-full h-[55vh] md:h-[60vh] min-h-[400px] md:min-h-[500px] perspective-1000 animate-fade-in-up"
+      className="relative w-full h-[55vh] md:h-[60vh] min-h-[400px] md:min-h-[500px] perspective-1000 animate-fade-in-up hover:z-50"
       style={{ animationDelay: `${index * 100}ms` }}
       ref={containerRef}
       onClick={() => onClick(art)}
@@ -138,51 +138,53 @@ const TiltCard: React.FC<{ art: ArtPiece; index: number; onClick: (art: ArtPiece
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onMouseEnter={handleMouseEnter}
-        className="w-full h-full relative transform-style-3d group cursor-pointer will-change-transform"
+        className="absolute -inset-4 md:-inset-6 z-10 p-4 md:p-6 transform-style-3d group cursor-pointer will-change-transform"
         style={{ transition: 'transform 1s ease-in-out' }}
       >
-        <div className="w-full h-full overflow-hidden rounded-sm bg-gray-900 shadow-2xl border border-white/5 transform-style-3d">
-          <img 
-            ref={imageRef}
-            src={art.imageUrl} 
-            alt={art.title} 
-            className="w-full h-full object-cover filter grayscale-[20%] group-hover:grayscale-0 transition-filter duration-700 will-change-transform"
-            style={{ transform: 'scale(1.15) translate3d(0,0,-20px)' }}
-          />
-          <div className="absolute inset-0 bg-black/30 md:group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
-          
-          {/* Icone d'agrandissement discrète sur mobile */}
-          <div className="absolute top-4 right-4 text-white opacity-50 md:hidden z-30">
-             <Maximize2 size={20} />
-          </div>
-        </div>
-
-        <div 
-            ref={shineRef}
-            className="absolute inset-0 pointer-events-none rounded-sm z-10 mix-blend-overlay transition-opacity duration-500"
-            style={{ transform: 'translateZ(1px)' }}
-        />
-
-        <div 
-          className="absolute bottom-0 left-0 w-full p-6 md:p-8 z-20 pointer-events-none"
-          style={{ transform: 'translateZ(50px)' }}
-        >
-          <div className="overflow-hidden">
-            <div className="transform translate-y-0 md:translate-y-6 md:group-hover:translate-y-0 transition-transform duration-500 ease-out">
-                <span className="inline-block px-2 py-1 bg-white/10 backdrop-blur-md text-purple-300 text-[10px] tracking-[0.2em] uppercase mb-3 border border-white/10 rounded-full shadow-lg">
-                    {art.category} <span className="mx-1">•</span> {art.year}
-                </span>
-                <h3 className="text-2xl md:text-3xl serif font-medium text-white mb-2 drop-shadow-lg">{art.title}</h3>
+        {/* Inner wrapper to keep visual content at original size despite expanded hitbox */}
+        <div className="relative w-full h-full transform-style-3d">
+            <div className="w-full h-full overflow-hidden rounded-sm bg-gray-900 shadow-2xl border border-white/5 transform-style-3d">
+                <img 
+                    ref={imageRef}
+                    src={art.imageUrl} 
+                    alt={art.title} 
+                    className="w-full h-full object-cover filter grayscale-[20%] group-hover:grayscale-0 transition-filter duration-700 will-change-transform"
+                    style={{ transform: 'scale(1.15) translate3d(0,0,-20px)' }}
+                />
+                <div className="absolute inset-0 bg-black/30 md:group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
                 
-                <p className="text-gray-200 text-sm font-light leading-relaxed opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 delay-100 line-clamp-2 mb-4 drop-shadow-md bg-black/40 md:bg-transparent p-2 md:p-0 rounded md:rounded-none backdrop-blur-sm md:backdrop-blur-none">
-                    {art.description}
-                </p>
-                
-                <div className="flex items-center text-white text-xs tracking-widest gap-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 delay-200">
-                    <span className="border-b border-white/40 pb-1">Explorer</span> <ArrowRight size={14} />
+                <div className="absolute top-4 right-4 text-white opacity-50 md:hidden z-30">
+                    <Maximize2 size={20} />
                 </div>
             </div>
-          </div>
+
+            <div 
+                ref={shineRef}
+                className="absolute inset-0 pointer-events-none rounded-sm z-10 mix-blend-overlay transition-opacity duration-500"
+                style={{ transform: 'translateZ(1px)' }}
+            />
+
+            <div 
+            className="absolute bottom-0 left-0 w-full p-6 md:p-8 z-20 pointer-events-none"
+            style={{ transform: 'translateZ(50px)' }}
+            >
+            <div className="overflow-hidden">
+                <div className="transform translate-y-0 md:translate-y-6 md:group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                    <span className="inline-block px-2 py-1 bg-white/10 backdrop-blur-md text-purple-300 text-[10px] tracking-[0.2em] uppercase mb-3 border border-white/10 rounded-full shadow-lg">
+                        {art.category} <span className="mx-1">•</span> {art.year}
+                    </span>
+                    <h3 className="text-2xl md:text-3xl serif font-medium text-white mb-2 drop-shadow-lg">{art.title}</h3>
+                    
+                    <p className="text-gray-200 text-sm font-light leading-relaxed opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 delay-100 line-clamp-2 mb-4 drop-shadow-md bg-black/40 md:bg-transparent p-2 md:p-0 rounded md:rounded-none backdrop-blur-sm md:backdrop-blur-none">
+                        {art.description}
+                    </p>
+                    
+                    <div className="flex items-center text-white text-xs tracking-widest gap-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 delay-200">
+                        <span className="border-b border-white/40 pb-1">Explorer</span> <ArrowRight size={14} />
+                    </div>
+                </div>
+            </div>
+            </div>
         </div>
       </div>
     </div>
@@ -206,17 +208,13 @@ const Lightbox: React.FC<{ art: ArtPiece | null; onClose: () => void }> = ({ art
 
     return (
         <div 
-            // z-40 pour passer SOUS le header (qui est z-50)
-            // pt-24/pt-32 pour dégager visuellement l'espace du header
             className={`fixed inset-0 z-[40] flex items-center justify-center px-4 pb-4 pt-24 md:px-12 md:pb-12 md:pt-32 transition-all duration-500 ${visible ? 'opacity-100 backdrop-blur-xl bg-black/90' : 'opacity-0 pointer-events-none'}`}
             onClick={onClose}
         >
             <div 
-                // max-w-5xl (réduit) et max-h-[80vh] (pour éviter le scroll global)
                 className={`relative w-full max-w-5xl h-full max-h-[80vh] flex flex-col md:flex-row bg-[#0a0a0a] rounded-sm overflow-hidden shadow-2xl transition-all duration-700 transform border border-white/10 ${visible ? 'scale-100 translate-y-0' : 'scale-95 translate-y-10'}`}
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* Close Button - Ajout data-cursor-text="Fermer" */}
                 <button 
                     onClick={onClose}
                     data-cursor-text="Fermer"
@@ -225,7 +223,6 @@ const Lightbox: React.FC<{ art: ArtPiece | null; onClose: () => void }> = ({ art
                     <X size={24} />
                 </button>
 
-                {/* Image Section */}
                 <div className="w-full md:w-3/5 h-1/2 md:h-full relative overflow-hidden bg-black">
                      <img 
                         src={art.imageUrl} 
@@ -235,9 +232,7 @@ const Lightbox: React.FC<{ art: ArtPiece | null; onClose: () => void }> = ({ art
                      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent md:hidden" />
                 </div>
 
-                {/* Info Section */}
                 <div className="w-full md:w-2/5 h-1/2 md:h-full p-6 md:p-10 flex flex-col justify-center border-l border-white/5 relative overflow-y-auto custom-scrollbar">
-                    {/* Background noise texture effect */}
                     <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
 
                     <div className="relative z-10">
@@ -312,7 +307,6 @@ const Gallery: React.FC = () => {
         </div>
         </div>
 
-        {/* Lightbox Overlay */}
         <Lightbox art={selectedArt} onClose={() => setSelectedArt(null)} />
     </>
   );
