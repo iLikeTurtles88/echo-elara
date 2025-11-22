@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 
@@ -255,14 +256,14 @@ const InteractiveBackground: React.FC = () => {
       const gamma = e.gamma || 0; // Inclinaison gauche/droite
       const beta = e.beta || 0;   // Inclinaison avant/arrière
 
-      // Normalisation pour correspondre à 0.0 -> 1.0 comme la souris
-      // On assume une tenue de téléphone "confortable" :
-      // Gamma : 0 (centré). Plage +/- 45 deg
-      // Beta : 45 (tenu face à soi). Plage +/- 45 deg
+      // Sensibilité accrue pour accentuer l'effet :
+      // On utilise un diviseur plus petit (ex: 40 au lieu de 90) 
+      // pour que de petits mouvements couvrent une plus grande plage virtuelle.
+      const sensitivity = 40; 
 
-      const normalizedX = 0.5 + (gamma / 90); 
+      const normalizedX = 0.5 + (gamma / sensitivity); 
       // Pour Y, on centre autour de 45 degrés (position de lecture standard)
-      const normalizedY = 0.5 - ((beta - 45) / 90);
+      const normalizedY = 0.5 - ((beta - 45) / sensitivity);
 
       // Clamp values
       targetMouseX = Math.max(0, Math.min(1, normalizedX));
